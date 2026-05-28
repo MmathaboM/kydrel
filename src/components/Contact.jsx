@@ -2,20 +2,27 @@ const contacts = [
   {
     icon: "✉️",
     label: "General Email",
-    value: "info@kydrel.co.za",
-    href: "mailto:info@kydrel.co.za",
+    value: "info@kydreltechnologies.co.za",
+    href: "mailto:info@kydreltechnologies.co.za",
   },
-  {
-    icon: "👤",
-    label: "Direct Contact",
-    value: "mmathabo@kydrel.co.za",
-    href: "mailto:mmathabo@kydrel.co.za",
-  },
+  // {
+  //   icon: "👤",
+  //   label: "Direct Contact",
+  //   value: "mmathabo@kydrel.co.za",
+  //   href: "mailto:mmathabo@kydrel.co.za",
+  // },
   {
     icon: "📱",
-    label: "Call / WhatsApp",
+    label: "Call Us",
     value: "076 325 3244",
     href: "tel:+27763253244",
+  },
+  {
+    icon: "💬",
+    label: "WhatsApp Us",
+    value: "076 325 3244",
+    href: "https://wa.me/27763253244", // WhatsApp direct link
+    isWhatsApp: true,
   },
   {
     icon: "🌐",
@@ -59,7 +66,7 @@ const Contact = ({ theme }) => {
               <a
                 key={c.label}
                 href={c.href}
-                target="_blank"
+                target={c.isWhatsApp ? "_blank" : "_blank"}
                 rel="noreferrer"
                 style={{
                   ...S.card,
@@ -67,30 +74,73 @@ const Contact = ({ theme }) => {
                   borderColor: dark
                     ? "rgba(255,255,255,0.08)"
                     : "rgba(10,31,92,0.1)",
+                  ...(c.isWhatsApp && {
+                    background: dark
+                      ? "rgba(37, 211, 102, 0.1)"
+                      : "rgba(37, 211, 102, 0.05)",
+                    borderColor: dark
+                      ? "rgba(37, 211, 102, 0.3)"
+                      : "rgba(37, 211, 102, 0.2)",
+                  }),
                 }}
                 className="glow-card"
-                onMouseEnter={(e) =>
-                  (e.currentTarget.style.borderColor = "rgba(0,180,216,0.5)")
-                }
-                onMouseLeave={(e) =>
-                  (e.currentTarget.style.borderColor = dark
-                    ? "rgba(255,255,255,0.08)"
-                    : "rgba(10,31,92,0.1)")
-                }
+                onMouseEnter={(e) => {
+                  if (c.isWhatsApp) {
+                    e.currentTarget.style.borderColor = "#25D366";
+                    e.currentTarget.style.transform = "translateY(-2px)";
+                  } else {
+                    e.currentTarget.style.borderColor = "rgba(0,180,216,0.5)";
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (c.isWhatsApp) {
+                    e.currentTarget.style.borderColor = dark
+                      ? "rgba(37, 211, 102, 0.3)"
+                      : "rgba(37, 211, 102, 0.2)";
+                    e.currentTarget.style.transform = "translateY(0)";
+                  } else {
+                    e.currentTarget.style.borderColor = dark
+                      ? "rgba(255,255,255,0.08)"
+                      : "rgba(10,31,92,0.1)";
+                  }
+                }}
               >
                 <span style={S.cIcon}>{c.icon}</span>
                 <div>
                   <p
-                    style={{ ...S.cLabel, color: dark ? "#4a6a80" : "#8a9bb5" }}
+                    style={{
+                      ...S.cLabel,
+                      color: dark ? "#4a6a80" : "#8a9bb5",
+                      ...(c.isWhatsApp && { color: "#25D366" }),
+                    }}
                   >
                     {c.label}
                   </p>
                   <p
-                    style={{ ...S.cValue, color: dark ? "#e2e8f0" : "#0A1F5C" }}
+                    style={{
+                      ...S.cValue,
+                      color: dark ? "#e2e8f0" : "#0A1F5C",
+                      ...(c.isWhatsApp && {
+                        color: "#25D366",
+                        fontWeight: 700,
+                      }),
+                    }}
                   >
                     {c.value}
                   </p>
                 </div>
+                {c.isWhatsApp && (
+                  <span
+                    style={{
+                      marginLeft: "auto",
+                      fontSize: 12,
+                      color: "#25D366",
+                      fontFamily: "'Space Grotesk',sans-serif",
+                    }}
+                  >
+                    Click to chat →
+                  </span>
+                )}
               </a>
             ))}
           </div>
@@ -141,9 +191,23 @@ const Contact = ({ theme }) => {
                 </div>
               ))}
             </div>
-            <a href="mailto:info@kydrel.co.za" style={S.ctaBtn}>
-              Send Us An Email →
-            </a>
+            <div style={S.ctaButtons}>
+              <a href="mailto:info@kydrel.co.za" style={S.ctaBtn}>
+                Send Us An Email →
+              </a>
+              <a
+                href="https://wa.me/27763253244"
+                target="_blank"
+                rel="noreferrer"
+                style={{
+                  ...S.ctaBtn,
+                  background: "linear-gradient(135deg, #25D366, #128C7E)",
+                  marginLeft: 12,
+                }}
+              >
+                Chat on WhatsApp 💬
+              </a>
+            </div>
           </div>
         </div>
       </div>
@@ -279,6 +343,11 @@ const S = {
     letterSpacing: 1.5,
     textTransform: "uppercase",
   },
+  ctaButtons: {
+    display: "flex",
+    flexWrap: "wrap",
+    gap: 12,
+  },
   ctaBtn: {
     display: "inline-block",
     background: "linear-gradient(135deg, #00B4D8, #0090B0)",
@@ -292,6 +361,9 @@ const S = {
     boxShadow: "0 8px 28px rgba(0,180,216,0.3)",
     letterSpacing: 0.3,
     transition: "transform 0.2s, box-shadow 0.2s",
+    cursor: "pointer",
+    textAlign: "center",
+    flex: 1,
   },
 };
 
