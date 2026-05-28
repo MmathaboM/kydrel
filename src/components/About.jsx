@@ -127,20 +127,13 @@ const About = ({ theme }) => {
                 </div>
               </div>
 
-              {/* Simple Tech Stack - like it was originally */}
+              {/* Fixed Tech Stack - Clean 6 items */}
               <div style={S.techStack}>
                 {[
-                  // "Cloud",
-                  // "System Development",
-                  "E-commerce Solutions",
                   "Software Development",
+                  "E-commerce Solutions",
                   "CRM Solutions",
                   "Data Analytics",
-                  // "Mobile",
-
-                  // "Data Analytics",
-                  // "Network Infrastructure",
-                  // "IT Support Services",
                   "Technology Consulting",
                   "Digital Marketing",
                 ].map((t) => (
@@ -170,7 +163,13 @@ const About = ({ theme }) => {
 };
 
 const S = {
-  section: { padding: "110px 40px", transition: "background 0.3s ease" },
+  section: {
+    padding: "110px 40px",
+    transition: "background 0.3s ease",
+    "@media (max-width: 768px)": {
+      padding: "60px 20px",
+    },
+  },
   inner: {
     maxWidth: 1100,
     margin: "0 auto",
@@ -178,16 +177,36 @@ const S = {
     gridTemplateColumns: "1fr 1fr",
     gap: 70,
     alignItems: "center",
+    "@media (max-width: 768px)": {
+      gridTemplateColumns: "1fr",
+      gap: 40,
+    },
   },
-  left: {},
+  left: {
+    "@media (max-width: 768px)": {
+      textAlign: "center",
+    },
+  },
   body: {
     fontFamily: "'Space Grotesk',sans-serif",
     fontSize: 15,
     lineHeight: 1.9,
     marginBottom: 18,
     transition: "color 0.3s ease",
+    "@media (max-width: 768px)": {
+      fontSize: 14,
+      textAlign: "center",
+    },
   },
-  pills: { display: "flex", flexWrap: "wrap", gap: 10, marginTop: 28 },
+  pills: {
+    display: "flex",
+    flexWrap: "wrap",
+    gap: 10,
+    marginTop: 28,
+    "@media (max-width: 768px)": {
+      justifyContent: "center",
+    },
+  },
   pill: {
     fontFamily: "'Space Grotesk',sans-serif",
     fontSize: 12,
@@ -216,20 +235,38 @@ const S = {
       "radial-gradient(circle, rgba(0,180,216,0.12) 0%, transparent 70%)",
     pointerEvents: "none",
   },
-  cardInner: { padding: 32 },
+  cardInner: {
+    padding: 32,
+    "@media (max-width: 768px)": {
+      padding: 24,
+    },
+  },
   vmGrid: {
     display: "grid",
     gridTemplateColumns: "1fr 1fr",
     gap: 16,
     marginBottom: 24,
+    "@media (max-width: 768px)": {
+      gridTemplateColumns: "1fr",
+      gap: 12,
+    },
   },
   vmCard: {
     border: "1px solid",
     borderRadius: 12,
     padding: "22px 18px",
     transition: "all 0.3s ease",
+    "@media (max-width: 768px)": {
+      padding: "18px 16px",
+    },
   },
-  vmIcon: { fontSize: 26, marginBottom: 12 },
+  vmIcon: {
+    fontSize: 26,
+    marginBottom: 12,
+    "@media (max-width: 768px)": {
+      fontSize: 24,
+    },
+  },
   vmTitle: {
     fontFamily: "'Syne',sans-serif",
     fontSize: 15,
@@ -242,12 +279,19 @@ const S = {
     fontSize: 13,
     lineHeight: 1.7,
     transition: "color 0.3s ease",
+    "@media (max-width: 768px)": {
+      fontSize: 12,
+    },
   },
   techStack: {
     display: "flex",
     flexWrap: "wrap",
     gap: 8,
     marginTop: 8,
+    "@media (max-width: 768px)": {
+      justifyContent: "center",
+      gap: 6,
+    },
   },
   tag: {
     border: "1px solid",
@@ -258,6 +302,10 @@ const S = {
     padding: "4px 12px",
     letterSpacing: 0.5,
     transition: "all 0.3s ease",
+    "@media (max-width: 768px)": {
+      fontSize: 10,
+      padding: "3px 10px",
+    },
   },
 };
 
