@@ -25,83 +25,138 @@ const contacts = [
   },
 ];
 
-const Contact = () => (
-  <section style={S.section} id="contact">
-    <div style={S.bgGlow} />
-    <div style={S.inner}>
-      <div style={S.left}>
-        <p className="section-eyebrow">Reach Out</p>
-        <h2 className="section-h2">
-          Let's Build
-          <br />
-          Something Great
-        </h2>
-        <p style={S.body}>
-          Ready to take your business to the next level with technology that
-          works? Reach out — we'd love to hear about your project.
-        </p>
-        <div style={S.cards}>
-          {contacts.map((c) => (
-            <a
-              key={c.label}
-              href={c.href}
-              target="_blank"
-              rel="noreferrer"
-              style={S.card}
-              className="glow-card"
-              onMouseEnter={(e) =>
-                (e.currentTarget.style.borderColor = "rgba(0,180,216,0.5)")
-              }
-              onMouseLeave={(e) =>
-                (e.currentTarget.style.borderColor = "rgba(255,255,255,0.08)")
-              }
-            >
-              <span style={S.cIcon}>{c.icon}</span>
-              <div>
-                <p style={S.cLabel}>{c.label}</p>
-                <p style={S.cValue}>{c.value}</p>
-              </div>
-            </a>
-          ))}
-        </div>
-      </div>
-      <div style={S.right}>
-        <div style={S.ctaBox}>
-          <div style={S.ctaGlow} />
-          <p style={S.ctaEye}>Ready to start?</p>
-          <h3 style={S.ctaH}>Partner with Kydrel Technologies</h3>
-          <p style={S.ctaSub}>
-            Where innovation meets impact — let's transform your business with
-            technology built for the future.
+const Contact = ({ theme }) => {
+  const dark = theme === "dark";
+
+  return (
+    <section
+      style={{ ...S.section, background: dark ? "#040d1c" : "#f8fafc" }}
+      id="contact"
+    >
+      <div style={{ ...S.bgGlow, opacity: dark ? 1 : 0.4 }} />
+      <div style={S.inner}>
+        <div style={S.left}>
+          <p
+            className="section-eyebrow"
+            style={{ color: dark ? "#00B4D8" : "#0A1F5C" }}
+          >
+            Reach Out
           </p>
-          <div style={S.ctaDivider} />
-          <div style={S.ctaStats}>
-            {[
-              ["8+", "Services"],
-              ["SA", "Based"],
-              ["24/7", "Support"],
-            ].map(([v, l]) => (
-              <div key={l} style={S.ctaStat}>
-                <span style={S.ctaStatV}>{v}</span>
-                <span style={S.ctaStatL}>{l}</span>
-              </div>
+          <h2
+            className="section-h2"
+            style={{ color: dark ? "#f1f5f9" : "#0A1F5C" }}
+          >
+            Let's Build
+            <br />
+            Something Great
+          </h2>
+          <p style={{ ...S.body, color: dark ? "#94a3b8" : "#475569" }}>
+            Ready to take your business to the next level with technology that
+            works? Reach out — we'd love to hear about your project.
+          </p>
+          <div style={S.cards}>
+            {contacts.map((c) => (
+              <a
+                key={c.label}
+                href={c.href}
+                target="_blank"
+                rel="noreferrer"
+                style={{
+                  ...S.card,
+                  background: dark ? "rgba(255,255,255,0.03)" : "#fff",
+                  borderColor: dark
+                    ? "rgba(255,255,255,0.08)"
+                    : "rgba(10,31,92,0.1)",
+                }}
+                className="glow-card"
+                onMouseEnter={(e) =>
+                  (e.currentTarget.style.borderColor = "rgba(0,180,216,0.5)")
+                }
+                onMouseLeave={(e) =>
+                  (e.currentTarget.style.borderColor = dark
+                    ? "rgba(255,255,255,0.08)"
+                    : "rgba(10,31,92,0.1)")
+                }
+              >
+                <span style={S.cIcon}>{c.icon}</span>
+                <div>
+                  <p
+                    style={{ ...S.cLabel, color: dark ? "#4a6a80" : "#8a9bb5" }}
+                  >
+                    {c.label}
+                  </p>
+                  <p
+                    style={{ ...S.cValue, color: dark ? "#e2e8f0" : "#0A1F5C" }}
+                  >
+                    {c.value}
+                  </p>
+                </div>
+              </a>
             ))}
           </div>
-          <a href="mailto:info@kydrel.co.za" style={S.ctaBtn}>
-            Send Us An Email →
-          </a>
+        </div>
+        <div style={S.right}>
+          <div
+            style={{
+              ...S.ctaBox,
+              background: dark
+                ? "linear-gradient(135deg, #0a1f3d, #0d2a50)"
+                : "linear-gradient(135deg, #e8f4fd, #d4eaf6)",
+              borderColor: dark ? "rgba(0,180,216,0.2)" : "rgba(0,180,216,0.3)",
+            }}
+          >
+            <div style={S.ctaGlow} />
+            <p style={S.ctaEye}>Ready to start?</p>
+            <h3 style={{ ...S.ctaH, color: dark ? "#f1f5f9" : "#0A1F5C" }}>
+              Partner with Kydrel Technologies
+            </h3>
+            <p style={{ ...S.ctaSub, color: dark ? "#7DD8EC" : "#0090B0" }}>
+              Where innovation meets impact — let's transform your business with
+              technology built for the future.
+            </p>
+            <div
+              style={{
+                ...S.ctaDivider,
+                background: dark
+                  ? "rgba(0,180,216,0.15)"
+                  : "rgba(0,180,216,0.2)",
+              }}
+            />
+            <div style={S.ctaStats}>
+              {[
+                ["8+", "Services"],
+                ["SA", "Based"],
+                ["24/7", "Support"],
+              ].map(([v, l]) => (
+                <div key={l} style={S.ctaStat}>
+                  <span
+                    style={{
+                      ...S.ctaStatV,
+                      color: dark ? "#f1f5f9" : "#0A1F5C",
+                    }}
+                  >
+                    {v}
+                  </span>
+                  <span style={S.ctaStatL}>{l}</span>
+                </div>
+              ))}
+            </div>
+            <a href="mailto:info@kydrel.co.za" style={S.ctaBtn}>
+              Send Us An Email →
+            </a>
+          </div>
         </div>
       </div>
-    </div>
-  </section>
-);
+    </section>
+  );
+};
 
 const S = {
   section: {
     position: "relative",
     overflow: "hidden",
-    background: "#040d1c",
     padding: "110px 40px",
+    transition: "background 0.3s ease",
   },
   bgGlow: {
     position: "absolute",
@@ -113,6 +168,7 @@ const S = {
     background:
       "radial-gradient(circle, rgba(0,180,216,0.07) 0%, transparent 70%)",
     pointerEvents: "none",
+    transition: "opacity 0.3s ease",
   },
   inner: {
     maxWidth: 1100,
@@ -127,17 +183,16 @@ const S = {
   body: {
     fontFamily: "'Space Grotesk',sans-serif",
     fontSize: 15,
-    color: "#94a3b8",
     lineHeight: 1.8,
     marginBottom: 36,
+    transition: "color 0.3s ease",
   },
   cards: { display: "flex", flexDirection: "column", gap: 14 },
   card: {
     display: "flex",
     alignItems: "center",
     gap: 18,
-    background: "rgba(255,255,255,0.03)",
-    border: "1px solid rgba(255,255,255,0.08)",
+    border: "1px solid",
     borderRadius: 12,
     padding: "18px 22px",
     textDecoration: "none",
@@ -148,25 +203,25 @@ const S = {
     fontFamily: "'Space Grotesk',sans-serif",
     fontSize: 11,
     fontWeight: 600,
-    color: "#4a6a80",
     textTransform: "uppercase",
     letterSpacing: 1.5,
     marginBottom: 4,
+    transition: "color 0.3s ease",
   },
   cValue: {
     fontFamily: "'Space Grotesk',sans-serif",
     fontSize: 15,
     fontWeight: 600,
-    color: "#e2e8f0",
+    transition: "color 0.3s ease",
   },
   right: {},
   ctaBox: {
     position: "relative",
     overflow: "hidden",
-    background: "linear-gradient(135deg, #0a1f3d, #0d2a50)",
-    border: "1px solid rgba(0,180,216,0.2)",
+    border: "1px solid",
     borderRadius: 20,
     padding: "44px 38px",
+    transition: "all 0.3s ease",
   },
   ctaGlow: {
     position: "absolute",
@@ -192,21 +247,21 @@ const S = {
     fontFamily: "'Syne',sans-serif",
     fontSize: 28,
     fontWeight: 800,
-    color: "#f1f5f9",
     lineHeight: 1.2,
     marginBottom: 18,
+    transition: "color 0.3s ease",
   },
   ctaSub: {
     fontFamily: "'Space Grotesk',sans-serif",
     fontSize: 14,
-    color: "#7DD8EC",
     lineHeight: 1.8,
     marginBottom: 28,
+    transition: "color 0.3s ease",
   },
   ctaDivider: {
     height: 1,
-    background: "rgba(0,180,216,0.15)",
     marginBottom: 28,
+    transition: "background 0.3s ease",
   },
   ctaStats: { display: "flex", gap: 32, marginBottom: 36 },
   ctaStat: { display: "flex", flexDirection: "column", gap: 4 },
@@ -214,7 +269,7 @@ const S = {
     fontFamily: "'Syne',sans-serif",
     fontSize: 26,
     fontWeight: 800,
-    color: "#f1f5f9",
+    transition: "color 0.3s ease",
   },
   ctaStatL: {
     fontFamily: "'Space Grotesk',sans-serif",
@@ -236,6 +291,7 @@ const S = {
     borderRadius: 10,
     boxShadow: "0 8px 28px rgba(0,180,216,0.3)",
     letterSpacing: 0.3,
+    transition: "transform 0.2s, box-shadow 0.2s",
   },
 };
 

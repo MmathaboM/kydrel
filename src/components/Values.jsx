@@ -39,21 +39,36 @@ const values = [
   },
 ];
 
-const Values = () => {
+const Values = ({ theme }) => {
   const [active, setActive] = useState(null);
+  const dark = theme === "dark";
 
   return (
-    <section style={S.section} id="values">
+    <section
+      style={{
+        ...S.section,
+        background: dark
+          ? "linear-gradient(180deg, #041228 0%, #020b1a 100%)"
+          : "linear-gradient(180deg, #f0f7ff 0%, #e8f4fd 100%)",
+      }}
+      id="values"
+    >
       <div style={S.bgGlow} />
       <div style={S.inner}>
         <div style={S.header}>
-          <p className="section-eyebrow" style={{ justifyContent: "center" }}>
+          <p
+            className="section-eyebrow"
+            style={{ color: dark ? "#00B4D8" : "#0A1F5C", textAlign: "center" }}
+          >
             What Drives Us
           </p>
-          <h2 className="section-h2" style={{ textAlign: "center" }}>
+          <h2
+            className="section-h2"
+            style={{ textAlign: "center", color: dark ? "#f1f5f9" : "#0A1F5C" }}
+          >
             Our Core Values
           </h2>
-          <p style={S.subtitle}>
+          <p style={{ ...S.subtitle, color: dark ? "#64748b" : "#5c6b7e" }}>
             The principles behind every solution we deliver.
           </p>
         </div>
@@ -69,17 +84,38 @@ const Values = () => {
                 borderColor:
                   active === i
                     ? "rgba(0,180,216,0.5)"
-                    : "rgba(255,255,255,0.07)",
+                    : dark
+                      ? "rgba(255,255,255,0.07)"
+                      : "rgba(10,31,92,0.1)",
                 background:
                   active === i
-                    ? "rgba(0,180,216,0.06)"
-                    : "rgba(255,255,255,0.02)",
+                    ? dark
+                      ? "rgba(0,180,216,0.06)"
+                      : "rgba(0,180,216,0.03)"
+                    : dark
+                      ? "rgba(255,255,255,0.02)"
+                      : "#fff",
+                boxShadow:
+                  active === i && !dark
+                    ? "0 8px 30px rgba(10,31,92,0.08)"
+                    : "none",
               }}
             >
-              <span style={S.num}>{v.num}</span>
+              <span
+                style={{
+                  ...S.num,
+                  color: dark ? "rgba(0,180,216,0.2)" : "rgba(10,31,92,0.15)",
+                }}
+              >
+                {v.num}
+              </span>
               <span style={S.icon}>{v.icon}</span>
-              <h3 style={S.title}>{v.title}</h3>
-              <p style={S.desc}>{v.desc}</p>
+              <h3 style={{ ...S.title, color: dark ? "#f1f5f9" : "#0A1F5C" }}>
+                {v.title}
+              </h3>
+              <p style={{ ...S.desc, color: dark ? "#64748b" : "#5c6b7e" }}>
+                {v.desc}
+              </p>
             </div>
           ))}
         </div>
@@ -92,8 +128,8 @@ const S = {
   section: {
     position: "relative",
     overflow: "hidden",
-    background: "linear-gradient(180deg, #041228 0%, #020b1a 100%)",
     padding: "110px 40px",
+    transition: "background 0.3s ease",
   },
   bgGlow: {
     position: "absolute",
@@ -112,9 +148,9 @@ const S = {
   subtitle: {
     fontFamily: "'Space Grotesk',sans-serif",
     fontSize: 16,
-    color: "#64748b",
     maxWidth: 380,
     margin: "0 auto",
+    transition: "color 0.3s ease",
   },
   grid: {
     display: "grid",
@@ -122,7 +158,7 @@ const S = {
     gap: 20,
   },
   card: {
-    border: "1px solid rgba(255,255,255,0.07)",
+    border: "1px solid",
     borderRadius: 16,
     padding: "32px 28px",
     position: "relative",
@@ -136,22 +172,22 @@ const S = {
     fontFamily: "'Syne',sans-serif",
     fontSize: 13,
     fontWeight: 800,
-    color: "rgba(0,180,216,0.2)",
     letterSpacing: 1,
+    transition: "color 0.3s ease",
   },
   icon: { fontSize: 30, display: "block", marginBottom: 16 },
   title: {
     fontFamily: "'Syne',sans-serif",
     fontSize: 17,
     fontWeight: 700,
-    color: "#f1f5f9",
     marginBottom: 10,
+    transition: "color 0.3s ease",
   },
   desc: {
     fontFamily: "'Space Grotesk',sans-serif",
     fontSize: 14,
-    color: "#64748b",
     lineHeight: 1.75,
+    transition: "color 0.3s ease",
   },
 };
 

@@ -51,7 +51,7 @@ const services = [
   },
 ];
 
-const Card = ({ s, i }) => {
+const Card = ({ s, i, dark }) => {
   const [hovered, setHovered] = useState(false);
   return (
     <div
@@ -60,16 +60,29 @@ const Card = ({ s, i }) => {
       onMouseLeave={() => setHovered(false)}
       style={{
         ...S.card,
-        background: hovered ? "rgba(0,180,216,0.07)" : "rgba(255,255,255,0.03)",
-        borderColor: hovered ? "rgba(0,180,216,0.4)" : "rgba(255,255,255,0.08)",
+        background: hovered
+          ? dark
+            ? "rgba(0,180,216,0.07)"
+            : "rgba(0,180,216,0.04)"
+          : dark
+            ? "rgba(255,255,255,0.03)"
+            : "#fff",
+        borderColor: hovered
+          ? "rgba(0,180,216,0.4)"
+          : dark
+            ? "rgba(255,255,255,0.08)"
+            : "rgba(10,31,92,0.1)",
+        boxShadow: hovered && !dark ? "0 8px 30px rgba(10,31,92,0.08)" : "none",
         animationDelay: `${i * 0.08}s`,
       }}
     >
       <div style={{ ...S.iconWrap, background: `${s.color}18` }}>
         <span style={S.icon}>{s.icon}</span>
       </div>
-      <h3 style={S.title}>{s.title}</h3>
-      <p style={S.desc}>{s.desc}</p>
+      <h3 style={{ ...S.title, color: dark ? "#f1f5f9" : "#0A1F5C" }}>
+        {s.title}
+      </h3>
+      <p style={{ ...S.desc, color: dark ? "#64748b" : "#5c6b7e" }}>{s.desc}</p>
       <div
         style={{ ...S.line, background: s.color, width: hovered ? 64 : 32 }}
       />
@@ -77,39 +90,52 @@ const Card = ({ s, i }) => {
   );
 };
 
-const Services = () => (
-  <section style={S.section} id="services">
-    <div style={S.inner}>
-      <div style={S.header}>
-        <p className="section-eyebrow" style={{ justifyContent: "center" }}>
-          What We Do
-        </p>
-        <h2 className="section-h2" style={{ textAlign: "center" }}>
-          Our Services
-        </h2>
-        <p style={S.subtitle}>
-          A full spectrum of ICT services designed to elevate your business.
-        </p>
+const Services = ({ theme }) => {
+  const dark = theme === "dark";
+
+  return (
+    <section
+      style={{ ...S.section, background: dark ? "#020b1a" : "#f8fafc" }}
+      id="services"
+    >
+      <div style={S.inner}>
+        <div style={S.header}>
+          <p
+            className="section-eyebrow"
+            style={{ color: dark ? "#00B4D8" : "#0A1F5C", textAlign: "center" }}
+          >
+            What We Do
+          </p>
+          <h2
+            className="section-h2"
+            style={{ textAlign: "center", color: dark ? "#f1f5f9" : "#0A1F5C" }}
+          >
+            Our Services
+          </h2>
+          <p style={{ ...S.subtitle, color: dark ? "#64748b" : "#5c6b7e" }}>
+            A full spectrum of ICT services designed to elevate your business.
+          </p>
+        </div>
+        <div style={S.grid}>
+          {services.map((s, i) => (
+            <Card key={s.title} s={s} i={i} dark={dark} />
+          ))}
+        </div>
       </div>
-      <div style={S.grid}>
-        {services.map((s, i) => (
-          <Card key={s.title} s={s} i={i} />
-        ))}
-      </div>
-    </div>
-  </section>
-);
+    </section>
+  );
+};
 
 const S = {
-  section: { background: "#020b1a", padding: "110px 40px" },
+  section: { padding: "110px 40px", transition: "background 0.3s ease" },
   inner: { maxWidth: 1100, margin: "0 auto" },
   header: { textAlign: "center", marginBottom: 64 },
   subtitle: {
     fontFamily: "'Space Grotesk',sans-serif",
     fontSize: 16,
-    color: "#64748b",
     maxWidth: 440,
     margin: "0 auto",
+    transition: "color 0.3s ease",
   },
   grid: {
     display: "grid",
@@ -117,7 +143,7 @@ const S = {
     gap: 20,
   },
   card: {
-    border: "1px solid rgba(255,255,255,0.08)",
+    border: "1px solid",
     borderRadius: 16,
     padding: "28px 24px",
     transition: "all 0.3s ease",
@@ -137,15 +163,15 @@ const S = {
     fontFamily: "'Syne',sans-serif",
     fontSize: 16,
     fontWeight: 700,
-    color: "#f1f5f9",
     marginBottom: 10,
+    transition: "color 0.3s ease",
   },
   desc: {
     fontFamily: "'Space Grotesk',sans-serif",
     fontSize: 13,
-    color: "#64748b",
     lineHeight: 1.75,
     marginBottom: 20,
+    transition: "color 0.3s ease",
   },
   line: { height: 3, borderRadius: 2, transition: "width 0.3s ease" },
 };
