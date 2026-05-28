@@ -126,14 +126,23 @@ const About = ({ theme }) => {
                   </p>
                 </div>
               </div>
+
+              {/* Simple Tech Stack - like it was originally */}
               <div style={S.techStack}>
                 {[
-                  "Cloud",
-                  "AI/ML",
-                  "Cybersecurity",
-                  "DevOps",
+                  // "Cloud",
+                  // "System Development",
+                  "E-commerce Solutions",
+                  "Software Development",
+                  "CRM Solutions",
                   "Data Analytics",
-                  "Mobile",
+                  // "Mobile",
+
+                  // "Data Analytics",
+                  // "Network Infrastructure",
+                  // "IT Support Services",
+                  "Technology Consulting",
+                  "Digital Marketing",
                 ].map((t) => (
                   <span
                     key={t}
@@ -234,7 +243,12 @@ const S = {
     lineHeight: 1.7,
     transition: "color 0.3s ease",
   },
-  techStack: { display: "flex", flexWrap: "wrap", gap: 8 },
+  techStack: {
+    display: "flex",
+    flexWrap: "wrap",
+    gap: 8,
+    marginTop: 8,
+  },
   tag: {
     border: "1px solid",
     borderRadius: 6,
