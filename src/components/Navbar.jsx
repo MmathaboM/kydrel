@@ -11,14 +11,22 @@ const Navbar = ({ activeSection, onNav, theme, toggleTheme }) => {
     window.addEventListener("scroll", fn);
     return () => window.removeEventListener("scroll", fn);
   }, []);
+
+
   useEffect(() => {
     if (menuOpen) {
       document.body.style.overflow = "hidden";
+      document.body.style.position = "fixed";
+      document.body.style.width = "100%";
     } else {
       document.body.style.overflow = "auto";
+      document.body.style.position = "relative";
+      document.body.style.width = "auto";
     }
     return () => {
       document.body.style.overflow = "auto";
+      document.body.style.position = "relative";
+      document.body.style.width = "auto";
     };
   }, [menuOpen]);
 
@@ -38,18 +46,18 @@ const Navbar = ({ activeSection, onNav, theme, toggleTheme }) => {
 
   return (
     <>
-      <nav style={{ ...S.nav, background: bg, borderBottom: border }}>
+      <nav style={{ ...styles.nav, background: bg, borderBottom: border }}>
         <Logo dark={dark} size={window.innerWidth < 768 ? 40 : 50} />
 
         {/* Mobile Menu Button */}
         <button
           onClick={() => setMenuOpen(!menuOpen)}
-          style={S.menuBtn}
+          style={styles.menuBtn}
           aria-label="Toggle menu"
         >
           <span
             style={{
-              ...S.menuBar,
+              ...styles.menuBar,
               background: dark ? "#fff" : "#0A1F5C",
               transform: menuOpen
                 ? "rotate(45deg) translate(5px, 5px)"
@@ -58,14 +66,14 @@ const Navbar = ({ activeSection, onNav, theme, toggleTheme }) => {
           />
           <span
             style={{
-              ...S.menuBar,
+              ...styles.menuBar,
               background: dark ? "#fff" : "#0A1F5C",
               opacity: menuOpen ? 0 : 1,
             }}
           />
           <span
             style={{
-              ...S.menuBar,
+              ...styles.menuBar,
               background: dark ? "#fff" : "#0A1F5C",
               transform: menuOpen
                 ? "rotate(-45deg) translate(5px, -5px)"
@@ -77,7 +85,7 @@ const Navbar = ({ activeSection, onNav, theme, toggleTheme }) => {
         {/* Desktop Menu */}
         <ul
           style={{
-            ...S.list,
+            ...styles.list,
             display:
               window.innerWidth < 768 ? (menuOpen ? "flex" : "none") : "flex",
           }}
@@ -87,7 +95,7 @@ const Navbar = ({ activeSection, onNav, theme, toggleTheme }) => {
             <li key={l}>
               <button
                 style={{
-                  ...S.link,
+                  ...styles.link,
                   color:
                     activeSection === l.toLowerCase()
                       ? "#00B4D8"
@@ -109,13 +117,13 @@ const Navbar = ({ activeSection, onNav, theme, toggleTheme }) => {
             </li>
           ))}
           <li>
-            <button onClick={toggleTheme} style={S.themeBtn}>
+            <button onClick={toggleTheme} style={styles.themeBtn}>
               {dark ? "☀️" : "🌙"}
             </button>
           </li>
           <li>
             <button
-              style={S.cta}
+              style={styles.cta}
               onClick={() => {
                 onNav("contact");
                 setMenuOpen(false);
@@ -128,12 +136,14 @@ const Navbar = ({ activeSection, onNav, theme, toggleTheme }) => {
       </nav>
 
       {/* Overlay when menu is open */}
-      {menuOpen && <div style={S.overlay} onClick={() => setMenuOpen(false)} />}
+      {menuOpen && (
+        <div style={styles.overlay} onClick={() => setMenuOpen(false)} />
+      )}
     </>
   );
 };
 
-const S = {
+const styles = {
   nav: {
     position: "fixed",
     top: 0,
@@ -155,22 +165,6 @@ const S = {
     listStyle: "none",
     margin: 0,
     padding: 0,
-    "@media (max-width: 768px)": {
-      position: "fixed",
-      top: 70,
-      left: 0,
-      right: 0,
-      bottom: 0,
-      flexDirection: "column",
-      background: "inherit",
-      backdropFilter: "blur(20px)",
-      padding: "30px 20px",
-      gap: "16px",
-      borderBottom: "1px solid rgba(0,180,216,0.15)",
-      zIndex: 999,
-      overflowY: "auto",
-      WebkitOverflowScrolling: "touch",
-    },
   },
   menuBtn: {
     display: "none",
@@ -181,9 +175,6 @@ const S = {
     cursor: "pointer",
     padding: 4,
     zIndex: 1001,
-    "@media (max-width: 768px)": {
-      display: "flex",
-    },
   },
   menuBar: {
     width: 25,
@@ -201,12 +192,6 @@ const S = {
     borderRadius: 7,
     transition: "all 0.2s",
     whiteSpace: "nowrap",
-    "@media (max-width: 768px)": {
-      width: "100%",
-      textAlign: "center",
-      padding: "14px",
-      fontSize: "16px",
-    },
   },
   themeBtn: {
     border: "none",
@@ -216,10 +201,6 @@ const S = {
     borderRadius: 8,
     transition: "all 0.2s",
     background: "transparent",
-    "@media (max-width: 768px)": {
-      width: "100%",
-      padding: "12px",
-    },
   },
   cta: {
     background: "linear-gradient(135deg,#00B4D8,#0090B0)",
@@ -233,12 +214,6 @@ const S = {
     borderRadius: 8,
     marginLeft: 8,
     transition: "all 0.2s",
-    "@media (max-width: 768px)": {
-      width: "100%",
-      marginLeft: 0,
-      marginTop: 8,
-      padding: "12px",
-    },
   },
   overlay: {
     position: "fixed",
@@ -249,10 +224,59 @@ const S = {
     backgroundColor: "rgba(0,0,0,0.5)",
     zIndex: 998,
     backdropFilter: "blur(4px)",
-    "@media (min-width: 769px)": {
-      display: "none",
-    },
   },
 };
+
+// Add responsive styles using a media query
+const responsiveStyles = `
+  @media (max-width: 768px) {
+    .nav-links {
+      position: fixed !important;
+      top: 70px !important;
+      left: 0 !important;
+      right: 0 !important;
+      bottom: 0 !important;
+      flex-direction: column !important;
+      background: inherit !important;
+      backdropFilter: blur(20px) !important;
+      padding: 30px 20px !important;
+      gap: 16px !important;
+      border-bottom: 1px solid rgba(0,180,216,0.15) !important;
+      z-index: 999 !important;
+      overflow-y: auto !important;
+      -webkit-overflow-scrolling: touch !important;
+    }
+    
+    .menu-btn {
+      display: flex !important;
+    }
+    
+    .nav-link {
+      width: 100% !important;
+      text-align: center !important;
+      padding: 14px !important;
+      font-size: 16px !important;
+    }
+    
+    .theme-btn {
+      width: 100% !important;
+      padding: 12px !important;
+    }
+    
+    .cta-btn {
+      width: 100% !important;
+      margin-left: 0 !important;
+      margin-top: 8px !important;
+      padding: 12px !important;
+    }
+  }
+`;
+
+// Inject responsive styles
+if (typeof document !== "undefined") {
+  const style = document.createElement("style");
+  style.textContent = responsiveStyles;
+  document.head.appendChild(style);
+}
 
 export default Navbar;
