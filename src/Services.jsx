@@ -1,7 +1,7 @@
 const services = [
   { icon: "💻", title: "Software Development", desc: "Custom web and mobile applications tailored precisely to your business needs and workflows." },
   { icon: "☁️", title: "Cloud Solutions", desc: "Cloud migration, hosting, and infrastructure management for scalable, reliable operations." },
-  { icon: "🔒", title: "Cybersecurity", desc: "Protecting your business with robust security frameworks, audits, and 24/7 monitoring." },
+  // { icon: "🔒", title: "Cybersecurity", desc: "Protecting your business with robust security frameworks, audits, and 24/7 monitoring." },
   { icon: "📊", title: "Data Analytics", desc: "Turning raw data into actionable business intelligence that drives smarter decisions." },
   { icon: "🌐", title: "Network Infrastructure", desc: "Design, implementation, and maintenance of network systems for seamless connectivity." },
   { icon: "🛠️", title: "IT Support & Managed Services", desc: "Reliable, responsive technical support keeping your operations running smoothly." },
