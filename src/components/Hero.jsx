@@ -1,41 +1,31 @@
 import { useEffect, useRef, useState } from "react";
 
-const PARTICLES = Array.from({ length: 18 }, (_, i) => ({
-  id: i,
-  left: Math.random() * 100,
-  delay: Math.random() * 8,
-  duration: 6 + Math.random() * 6,
-  size: 2 + Math.random() * 3,
-}));
-
 const TypeWriter = ({ words }) => {
   const [index, setIndex] = useState(0);
-  const [subIndex, setSubIndex] = useState(0);
-  const [deleting, setDeleting] = useState(false);
-
+  const [sub, setSub] = useState(0);
+  const [del, setDel] = useState(false);
   useEffect(() => {
-    const current = words[index];
-    const timeout = setTimeout(
+    const cur = words[index];
+    const t = setTimeout(
       () => {
-        if (!deleting && subIndex === current.length) {
-          setTimeout(() => setDeleting(true), 1800);
+        if (!del && sub === cur.length) {
+          setTimeout(() => setDel(true), 1800);
           return;
         }
-        if (deleting && subIndex === 0) {
-          setDeleting(false);
+        if (del && sub === 0) {
+          setDel(false);
           setIndex((i) => (i + 1) % words.length);
           return;
         }
-        setSubIndex((s) => s + (deleting ? -1 : 1));
+        setSub((s) => s + (del ? -1 : 1));
       },
-      deleting ? 60 : 100,
+      del ? 60 : 100,
     );
-    return () => clearTimeout(timeout);
-  }, [subIndex, deleting, index, words]);
-
+    return () => clearTimeout(t);
+  }, [sub, del, index, words]);
   return (
     <span className="gradient-text" style={{ fontFamily: "'Syne',sans-serif" }}>
-      {words[index].substring(0, subIndex)}
+      {words[index].substring(0, sub)}
       <span
         style={{
           animation: "blink 0.8s infinite",
@@ -49,16 +39,19 @@ const TypeWriter = ({ words }) => {
   );
 };
 
-const Hero = ({ onNav }) => {
+const Hero = ({ onNav, theme }) => {
   const canvasRef = useRef(null);
+  const dark = theme === "dark";
 
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-
+    const resize = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    };
+    resize();
     const nodes = Array.from({ length: 55 }, () => ({
       x: Math.random() * canvas.width,
       y: Math.random() * canvas.height,
@@ -66,7 +59,6 @@ const Hero = ({ onNav }) => {
       vy: (Math.random() - 0.5) * 0.5,
       r: 2 + Math.random() * 2,
     }));
-
     let raf;
     const draw = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -75,61 +67,74 @@ const Hero = ({ onNav }) => {
         n.y += n.vy;
         if (n.x < 0 || n.x > canvas.width) n.vx *= -1;
         if (n.y < 0 || n.y > canvas.height) n.vy *= -1;
-
         ctx.beginPath();
         ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
-        ctx.fillStyle = "rgba(0,180,216,0.5)";
+        ctx.fillStyle = dark ? "rgba(0,180,216,0.5)" : "rgba(10,31,92,0.35)";
         ctx.fill();
       });
-
-      for (let i = 0; i < nodes.length; i++) {
+      for (let i = 0; i < nodes.length; i++)
         for (let j = i + 1; j < nodes.length; j++) {
-          const dx = nodes[i].x - nodes[j].x;
-          const dy = nodes[i].y - nodes[j].y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < 120) {
+          const dx = nodes[i].x - nodes[j].x,
+            dy = nodes[i].y - nodes[j].y;
+          const d = Math.sqrt(dx * dx + dy * dy);
+          if (d < 120) {
             ctx.beginPath();
             ctx.moveTo(nodes[i].x, nodes[i].y);
             ctx.lineTo(nodes[j].x, nodes[j].y);
-            ctx.strokeStyle = `rgba(0,180,216,${0.15 * (1 - dist / 120)})`;
+            ctx.strokeStyle = dark
+              ? `rgba(0,180,216,${0.15 * (1 - d / 120)})`
+              : `rgba(10,31,92,${0.12 * (1 - d / 120)})`;
             ctx.lineWidth = 0.8;
             ctx.stroke();
           }
         }
-      }
       raf = requestAnimationFrame(draw);
     };
     draw();
-    const onResize = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    };
-    window.addEventListener("resize", onResize);
+    window.addEventListener("resize", resize);
     return () => {
       cancelAnimationFrame(raf);
-      window.removeEventListener("resize", onResize);
+      window.removeEventListener("resize", resize);
     };
-  }, []);
+  }, [dark]);
+
+  const bg = dark
+    ? "linear-gradient(135deg,#020b1a 0%,#041228 50%,#020e22 100%)"
+    : "linear-gradient(135deg,#e8f4fd 0%,#f0f8ff 50%,#e4f2fb 100%)";
 
   return (
-    <section style={S.hero} id="hero">
+    <section style={{ ...S.hero, background: bg }} id="hero">
       <canvas ref={canvasRef} style={S.canvas} />
-
-      {/* floating hexagons */}
       {[0, 1, 2].map((i) => (
         <div
           key={i}
-          style={{ ...S.floatHex, ...hexPos[i], animationDelay: `${i * 1.2}s` }}
+          style={{
+            ...S.hex,
+            ...hexPos[i],
+            animationDelay: `${i * 1.2}s`,
+            opacity: dark ? 0.12 : 0.08,
+          }}
         />
       ))}
 
       <div style={S.content}>
-        <div className="animate-fade-up" style={S.badge}>
-          <span style={S.badgeDot} />
+        <div
+          className="animate-fade-up"
+          style={{
+            ...S.badge,
+            background: dark ? "rgba(0,180,216,0.1)" : "rgba(10,31,92,0.06)",
+            borderColor: dark ? "rgba(0,180,216,0.3)" : "rgba(10,31,92,0.2)",
+            color: dark ? "#7DD8EC" : "#0A1F5C",
+          }}
+        >
+          <span style={S.dot} />
           South Africa's Next-Gen ICT Partner
         </div>
 
-        <h1 style={S.h1} className="animate-fade-up-2">
+        <h1
+          style={{ ...S.h1, color: dark ? "#f1f5f9" : "#0A1F5C" }}
+          className="animate-fade-up-2"
+        >
           We Build
           <br />
           <TypeWriter
@@ -143,35 +148,28 @@ const Hero = ({ onNav }) => {
           />
         </h1>
 
-        <p style={S.sub} className="animate-fade-up-3">
+        <p
+          style={{ ...S.sub, color: dark ? "#94a3b8" : "#445" }}
+          className="animate-fade-up-3"
+        >
           Kydrel Technologies delivers innovative, reliable, and affordable
           technology services that help your business thrive in an ever-evolving
           digital world.
         </p>
 
         <div style={S.actions} className="animate-fade-up-4">
-          <button
-            style={S.btnPrimary}
-            onClick={() => onNav("services")}
-            onMouseEnter={(e) =>
-              (e.target.style.transform = "translateY(-3px)")
-            }
-            onMouseLeave={(e) => (e.target.style.transform = "translateY(0)")}
-          >
-            Explore Our Services
-            <span style={{ marginLeft: 8 }}>→</span>
+          <button style={S.btnP} onClick={() => onNav("services")}>
+            Explore Our Services →
           </button>
           <button
-            style={S.btnOutline}
+            style={{
+              ...S.btnO,
+              borderColor: dark
+                ? "rgba(255,255,255,0.25)"
+                : "rgba(10,31,92,0.3)",
+              color: dark ? "#e2e8f0" : "#0A1F5C",
+            }}
             onClick={() => onNav("contact")}
-            onMouseEnter={(e) => {
-              e.target.style.background = "#00B4D820";
-              e.target.style.borderColor = "#00B4D8";
-            }}
-            onMouseLeave={(e) => {
-              e.target.style.background = "transparent";
-              e.target.style.borderColor = "rgba(255,255,255,0.25)";
-            }}
           >
             Contact Us
           </button>
@@ -179,37 +177,40 @@ const Hero = ({ onNav }) => {
 
         <div style={S.stats} className="animate-fade-up-4">
           {[
-            { val: "100%", label: "Client Focused" },
-            { val: "24/7", label: "Support Available" },
-            { val: "8+", label: "ICT Services" },
-            { val: "SA", label: "Based & Proud" },
-          ].map((s) => (
-            <div key={s.label} style={S.stat}>
-              <span style={S.statVal}>{s.val}</span>
-              <span style={S.statLabel}>{s.label}</span>
+            ["100%", "Client Focused"],
+            ["24/7", "Support"],
+            ["8+", "ICT Services"],
+            ["SA", "Based & Proud"],
+          ].map(([v, l]) => (
+            <div key={l} style={S.stat}>
+              <span style={{ ...S.statV, color: dark ? "#f1f5f9" : "#0A1F5C" }}>
+                {v}
+              </span>
+              <span style={S.statL}>{l}</span>
             </div>
           ))}
         </div>
       </div>
 
-      <div style={S.scrollHint}>
-        <div style={S.scrollDot} />
-        <span style={S.scrollText}>Scroll to explore</span>
+      <div style={S.scroll}>
+        <div
+          style={{
+            ...S.scrollDot,
+            borderColor: dark ? "rgba(0,180,216,0.4)" : "rgba(10,31,92,0.3)",
+          }}
+        />
+        <span style={{ ...S.scrollTxt, color: dark ? "#4a6a80" : "#889" }}>
+          Scroll to explore
+        </span>
       </div>
     </section>
   );
 };
 
 const hexPos = [
-  { right: "8%", top: "15%", width: 280, height: 280, animationName: "float" },
-  {
-    right: "18%",
-    top: "52%",
-    width: 160,
-    height: 160,
-    animationName: "floatReverse",
-  },
-  { right: "2%", top: "60%", width: 100, height: 100, animationName: "float" },
+  { right: "8%", top: "15%", width: 280, height: 280 },
+  { right: "18%", top: "52%", width: 160, height: 160 },
+  { right: "2%", top: "60%", width: 100, height: 100 },
 ];
 
 const S = {
@@ -220,8 +221,6 @@ const S = {
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
-    background:
-      "linear-gradient(135deg, #020b1a 0%, #041228 50%, #020e22 100%)",
     paddingTop: 72,
   },
   canvas: {
@@ -231,13 +230,12 @@ const S = {
     height: "100%",
     zIndex: 0,
   },
-  floatHex: {
+  hex: {
     position: "absolute",
     zIndex: 1,
     backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 100 86' xmlns='http://www.w3.org/2000/svg'%3E%3Cpolygon points='50,2 98,26 98,74 50,98 2,74 2,26' fill='none' stroke='%2300B4D8' stroke-width='1.5'/%3E%3C/svg%3E")`,
     backgroundSize: "contain",
     backgroundRepeat: "no-repeat",
-    opacity: 0.12,
     animation: "float 6s ease-in-out infinite",
   },
   content: {
@@ -251,30 +249,26 @@ const S = {
     display: "inline-flex",
     alignItems: "center",
     gap: 10,
-    background: "rgba(0,180,216,0.1)",
-    border: "1px solid rgba(0,180,216,0.3)",
+    border: "1px solid",
     borderRadius: 20,
     padding: "7px 18px",
     marginBottom: 32,
     fontFamily: "'Space Grotesk',sans-serif",
     fontSize: 12,
     fontWeight: 600,
-    color: "#7DD8EC",
     letterSpacing: 0.5,
   },
-  badgeDot: {
+  dot: {
     width: 7,
     height: 7,
     borderRadius: "50%",
     background: "#00B4D8",
     boxShadow: "0 0 0 3px rgba(0,180,216,0.3)",
-    animation: "pulse-ring 2s ease-out infinite",
   },
   h1: {
-    fontFamily: "'Syne', sans-serif",
-    fontSize: "clamp(42px, 6vw, 76px)",
+    fontFamily: "'Syne',sans-serif",
+    fontSize: "clamp(42px,6vw,76px)",
     fontWeight: 800,
-    color: "#f1f5f9",
     lineHeight: 1.1,
     margin: "0 0 28px",
     letterSpacing: -2,
@@ -282,14 +276,13 @@ const S = {
   sub: {
     fontFamily: "'Space Grotesk',sans-serif",
     fontSize: 17,
-    color: "#94a3b8",
     lineHeight: 1.8,
     maxWidth: 560,
     margin: "0 0 40px",
   },
   actions: { display: "flex", gap: 16, flexWrap: "wrap", marginBottom: 56 },
-  btnPrimary: {
-    background: "linear-gradient(135deg, #00B4D8, #0090B0)",
+  btnP: {
+    background: "linear-gradient(135deg,#00B4D8,#0090B0)",
     color: "#fff",
     border: "none",
     cursor: "pointer",
@@ -299,13 +292,12 @@ const S = {
     padding: "14px 32px",
     borderRadius: 10,
     boxShadow: "0 8px 32px rgba(0,180,216,0.35)",
-    transition: "transform 0.2s, box-shadow 0.2s",
+    transition: "transform 0.2s",
     letterSpacing: 0.3,
   },
-  btnOutline: {
+  btnO: {
     background: "transparent",
-    color: "#e2e8f0",
-    border: "1.5px solid rgba(255,255,255,0.25)",
+    border: "1.5px solid",
     cursor: "pointer",
     fontFamily: "'Space Grotesk',sans-serif",
     fontSize: 15,
@@ -317,13 +309,8 @@ const S = {
   },
   stats: { display: "flex", gap: 40, flexWrap: "wrap" },
   stat: { display: "flex", flexDirection: "column", gap: 4 },
-  statVal: {
-    fontFamily: "'Syne',sans-serif",
-    fontSize: 32,
-    fontWeight: 800,
-    color: "#f1f5f9",
-  },
-  statLabel: {
+  statV: { fontFamily: "'Syne',sans-serif", fontSize: 32, fontWeight: 800 },
+  statL: {
     fontFamily: "'Space Grotesk',sans-serif",
     fontSize: 11,
     color: "#00B4D8",
@@ -331,7 +318,7 @@ const S = {
     letterSpacing: 1.5,
     textTransform: "uppercase",
   },
-  scrollHint: {
+  scroll: {
     position: "absolute",
     bottom: 32,
     left: "50%",
@@ -343,17 +330,10 @@ const S = {
     zIndex: 2,
     animation: "fadeIn 1.5s ease 1.5s both",
   },
-  scrollDot: {
-    width: 24,
-    height: 40,
-    border: "2px solid rgba(0,180,216,0.4)",
-    borderRadius: 12,
-    position: "relative",
-  },
-  scrollText: {
+  scrollDot: { width: 24, height: 40, border: "2px solid", borderRadius: 12 },
+  scrollTxt: {
     fontFamily: "'Space Grotesk',sans-serif",
     fontSize: 11,
-    color: "#4a6a80",
     letterSpacing: 2,
     textTransform: "uppercase",
   },
