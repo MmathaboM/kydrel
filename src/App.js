@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { ThemeProvider } from "./contex/ThemeContext";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import About from "./components/About";
@@ -9,8 +8,19 @@ import Contact from "./components/Contact";
 import Footer from "./components/Footer";
 import "./App.css";
 
-function AppContent() {
+function App() {
   const [activeSection, setActiveSection] = useState("hero");
+  const [theme, setTheme] = useState(() => {
+    const saved = localStorage.getItem("theme");
+    return saved === "dark" ? "dark" : "light";
+  });
+
+  const toggleTheme = () => {
+    const newTheme = theme === "dark" ? "light" : "dark";
+    setTheme(newTheme);
+    localStorage.setItem("theme", newTheme);
+    document.body.setAttribute("data-theme", newTheme);
+  };
 
   const handleNav = (section) => {
     setActiveSection(section);
@@ -20,22 +30,19 @@ function AppContent() {
 
   return (
     <div className="App">
-      <Navbar activeSection={activeSection} onNav={handleNav} />
-      <Hero onNav={handleNav} />
+      <Navbar
+        activeSection={activeSection}
+        onNav={handleNav}
+        theme={theme}
+        toggleTheme={toggleTheme}
+      />
+      <Hero onNav={handleNav} theme={theme} />
       <About />
       <Services />
       <Values />
       <Contact />
       <Footer />
     </div>
-  );
-}
-
-function App() {
-  return (
-    <ThemeProvider>
-      <AppContent />
-    </ThemeProvider>
   );
 }
 
