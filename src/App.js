@@ -37,10 +37,11 @@ function App() {
         toggleTheme={toggleTheme}
       />
       <Hero onNav={handleNav} theme={theme} />
-      <About />
-      <Services />
-      <Values />
-      <Contact />
+      <About theme={theme} />
+      <Services theme={theme} />
+      <Values theme={theme} />
+      <Contact theme={theme} />
+      
       <Footer />
     </div>
   );
