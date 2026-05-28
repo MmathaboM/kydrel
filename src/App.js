@@ -41,8 +41,7 @@ function App() {
       <Services theme={theme} />
       <Values theme={theme} />
       <Contact theme={theme} />
-      
-      <Footer />
+      <Footer theme={theme} /> {/* ← Add theme prop here */}
     </div>
   );
 }
