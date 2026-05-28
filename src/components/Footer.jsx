@@ -1,30 +1,65 @@
+import { useState, useEffect } from "react";
 import Logo from "./Logo";
 
 const Footer = ({ theme }) => {
   const dark = theme === "dark";
+  const [isTablet, setIsTablet] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsTablet(window.innerWidth < 992);
+    };
+
+    handleResize(); 
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   return (
-    <footer style={{ ...S.footer, background: dark ? "#010712" : "#f0f4f8" }}>
+    <footer
+      style={{
+        ...S.footer,
+        background: dark ? "#010712" : "#f0f4f8",
+      }}
+    >
       <div
         style={{
           ...S.topLine,
-          background: dark
-            ? "linear-gradient(90deg, transparent, #00B4D8, transparent)"
-            : "linear-gradient(90deg, transparent, #00B4D8, transparent)",
+          background:
+            "linear-gradient(90deg, transparent, #00B4D8, transparent)",
         }}
       />
-      <div style={S.inner}>
-        <div style={S.brand}>
+
+      <div
+        style={{
+          ...S.inner,
+          gridTemplateColumns: isTablet ? "1fr" : "2fr 1fr 1fr 1fr",
+          textAlign: isTablet ? "center" : "left",
+          justifyItems: isTablet ? "center" : "start",
+        }}
+      >
+        {/* BRAND SECTION */}
+        <div
+          style={{
+            ...S.brand,
+            alignItems: isTablet ? "center" : "flex-start",
+          }}
+        >
           <Logo size={90} dark={dark} />
+
           <p
             style={{
               ...S.tagline,
               color: dark ? "#4a6a80" : "#5c6b7e",
-              marginLeft: 40,
+              marginLeft: isTablet ? 0 : 40,
+              textAlign: isTablet ? "center" : "left",
+              maxWidth: isTablet ? "100%" : 240,
             }}
           >
             Powering Digital Solutions across South Africa and beyond.
           </p>
+
           <div style={S.socials}>
             {["LinkedIn", "Twitter", "GitHub"].map((s) => (
               <span
@@ -43,10 +78,23 @@ const Footer = ({ theme }) => {
             ))}
           </div>
         </div>
-        <div style={S.col}>
-          <p style={{ ...S.colHead, color: dark ? "#f1f5f9" : "#0A1F5C" }}>
+
+        {/* NAVIGATION */}
+        <div
+          style={{
+            ...S.col,
+            alignItems: isTablet ? "center" : "flex-start",
+          }}
+        >
+          <p
+            style={{
+              ...S.colHead,
+              color: dark ? "#f1f5f9" : "#0A1F5C",
+            }}
+          >
             Navigation
           </p>
+
           {["About", "Services", "Values", "Contact"].map((l) => (
             <a
               key={l}
@@ -64,13 +112,26 @@ const Footer = ({ theme }) => {
             </a>
           ))}
         </div>
-        <div style={S.col}>
-          <p style={{ ...S.colHead, color: dark ? "#f1f5f9" : "#0A1F5C" }}>
+
+        {/* SERVICES */}
+        <div
+          style={{
+            ...S.col,
+            alignItems: isTablet ? "center" : "flex-start",
+          }}
+        >
+          <p
+            style={{
+              ...S.colHead,
+              color: dark ? "#f1f5f9" : "#0A1F5C",
+            }}
+          >
             Services
           </p>
+
           {[
             "Software Development",
-            "Digital Markerting",
+            "Digital Marketing",
             "Technology Consulting",
             "Data Analytics",
           ].map((l) => (
@@ -86,24 +147,38 @@ const Footer = ({ theme }) => {
             </span>
           ))}
         </div>
-        <div style={S.col}>
-          <p style={{ ...S.colHead, color: dark ? "#f1f5f9" : "#0A1F5C" }}>
+
+        {/* CONTACT */}
+        <div
+          style={{
+            ...S.col,
+            alignItems: isTablet ? "center" : "flex-start",
+          }}
+        >
+          <p
+            style={{
+              ...S.colHead,
+              color: dark ? "#f1f5f9" : "#0A1F5C",
+            }}
+          >
             Contact
           </p>
+
           <span style={{ ...S.link, color: dark ? "#4a6a80" : "#5c6b7e" }}>
             info@kydreltechnologies.co.za
           </span>
-          {/* <span style={{ ...S.link, color: dark ? "#4a6a80" : "#5c6b7e" }}>
-            mmathabo@kydrel.co.za
-          </span> */}
+
           <span style={{ ...S.link, color: dark ? "#4a6a80" : "#5c6b7e" }}>
             076 325 3244
           </span>
+
           <span style={{ ...S.link, color: dark ? "#4a6a80" : "#5c6b7e" }}>
             South Africa
           </span>
         </div>
       </div>
+
+      {/* BOTTOM */}
       <div
         style={{
           ...S.bottom,
@@ -112,24 +187,31 @@ const Footer = ({ theme }) => {
             : "rgba(10,31,92,0.1)",
         }}
       >
-        <p style={{ ...S.copy, color: dark ? "#2a3a50" : "#8a9bb5" }}>
+        <p
+          style={{
+            ...S.copy,
+            color: dark ? "#2a3a50" : "#8a9bb5",
+          }}
+        >
           © {new Date().getFullYear()} Kydrel Technologies. All rights reserved.
         </p>
-        {/* <p style={{ ...S.copy, color: dark ? "#2a3a50" : "#8a9bb5" }}>
-          Built with ❤️ in South Africa
-        </p> */}
       </div>
     </footer>
   );
 };
 
 const S = {
-  footer: { padding: "60px 40px 28px", transition: "background 0.3s ease" },
+  footer: {
+    padding: "60px 40px 28px",
+    transition: "background 0.3s ease",
+  },
+
   topLine: {
     height: 1,
     marginBottom: 56,
     transition: "background 0.3s ease",
   },
+
   inner: {
     maxWidth: 1100,
     margin: "0 auto",
@@ -138,7 +220,12 @@ const S = {
     gap: 40,
     marginBottom: 48,
   },
-  brand: {},
+
+  brand: {
+    display: "flex",
+    flexDirection: "column",
+  },
+
   tagline: {
     fontFamily: "'Space Grotesk',sans-serif",
     fontSize: 13,
@@ -147,7 +234,16 @@ const S = {
     maxWidth: 240,
     transition: "color 0.3s ease",
   },
-  socials: { display: "flex", gap: 12, marginTop: 20, marginLeft: 30 },
+
+  socials: {
+    display: "flex",
+    gap: 12,
+    marginTop: 20,
+    marginLeft: 30,
+    flexWrap: "wrap",
+    justifyContent: "center",
+  },
+
   social: {
     fontFamily: "'Space Grotesk',sans-serif",
     fontSize: 11,
@@ -158,7 +254,13 @@ const S = {
     letterSpacing: 0.3,
     transition: "all 0.2s ease",
   },
-  col: { display: "flex", flexDirection: "column", gap: 10 },
+
+  col: {
+    display: "flex",
+    flexDirection: "column",
+    gap: 10,
+  },
+
   colHead: {
     fontFamily: "'Syne',sans-serif",
     fontSize: 12,
@@ -168,12 +270,14 @@ const S = {
     marginBottom: 6,
     transition: "color 0.3s ease",
   },
+
   link: {
     fontFamily: "'Space Grotesk',sans-serif",
     fontSize: 13,
     textDecoration: "none",
     transition: "color 0.2s ease",
   },
+
   bottom: {
     maxWidth: 1100,
     margin: "0 auto",
@@ -185,6 +289,7 @@ const S = {
     gap: 8,
     transition: "border-color 0.3s ease",
   },
+
   copy: {
     fontFamily: "'Space Grotesk',sans-serif",
     fontSize: 12,
