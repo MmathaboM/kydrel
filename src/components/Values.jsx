@@ -73,7 +73,12 @@ const Values = ({ theme }) => {
           </p>
           <h2
             className="section-h2"
-            style={{ textAlign: "center", color: dark ? "#f1f5f9" : "#0A1F5C" }}
+            style={{
+              textAlign: "center",
+              color: dark ? "#f1f5f9" : "#0A1F5C",
+              marginTop: 10,
+              marginBottom: 15,
+            }}
           >
             Our Core Values
           </h2>

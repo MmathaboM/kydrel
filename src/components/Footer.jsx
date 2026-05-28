@@ -16,7 +16,13 @@ const Footer = ({ theme }) => {
       <div style={S.inner}>
         <div style={S.brand}>
           <Logo size={90} dark={dark} />
-          <p style={{ ...S.tagline, color: dark ? "#4a6a80" : "#5c6b7e" }}>
+          <p
+            style={{
+              ...S.tagline,
+              color: dark ? "#4a6a80" : "#5c6b7e",
+              marginLeft: 40,
+            }}
+          >
             Powering Digital Solutions across South Africa and beyond.
           </p>
           <div style={S.socials}>
@@ -141,7 +147,7 @@ const S = {
     maxWidth: 240,
     transition: "color 0.3s ease",
   },
-  socials: { display: "flex", gap: 12, marginTop: 20 },
+  socials: { display: "flex", gap: 12, marginTop: 20, marginLeft: 30 },
   social: {
     fontFamily: "'Space Grotesk',sans-serif",
     fontSize: 11,

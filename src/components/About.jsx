@@ -17,14 +17,18 @@ const About = ({ theme }) => {
           >
             Who We Are
           </p>
-          <h2
+          <h1
             className="section-h2"
-            style={{ color: dark ? "#f1f5f9" : "#0A1F5C" }}
+            style={{
+              color: dark ? "#f1f5f9" : "#0A1F5C",
+              marginTop: 10,
+              marginBottom: 15,
+            }}
           >
             Built for Africa's
             <br />
             Digital Future
-          </h2>
+          </h1>
           <p style={{ ...S.body, color: dark ? "#94a3b8" : "#475569" }}>
             Kydrel Technologies is a dynamic, forward-thinking technology
             company based in South Africa, committed to delivering innovative

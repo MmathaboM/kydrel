@@ -1,53 +1,50 @@
 import { useState } from "react";
+import Icon from "@mdi/react";
+import {
+  mdiCodeBraces,
+  mdiChartLine,
+  mdiNetwork,
+  mdiHeadCog,
+  mdiMonitorStar,
+  mdiBullhorn,
+} from "@mdi/js";
 
 const services = [
   {
-    icon: "💻",
+    icon: mdiCodeBraces,
     title: "Software Development",
     desc: "Custom web and mobile applications built precisely for your workflows and goals.",
     color: "#00B4D8",
   },
-  // {
-  //   icon: "☁️",
-  //   title: "Cloud Solutions",
-  //   desc: "Scalable cloud migration, hosting, and infrastructure management.",
-  //   color: "#0ea5e9",
-  // },
-  // {
-  //   icon: "🔒",
-  //   title: "Cybersecurity",
-  //   desc: "Robust security frameworks, audits, and 24/7 threat monitoring.",
-  //   color: "#06b6d4",
-  // },
   {
-    icon: "📊",
+    icon: mdiChartLine,
     title: "Data Analytics",
     desc: "Transform raw data into actionable business intelligence.",
-    color: "#0284c7",
+    color: "#00B4D8",
   },
   {
-    icon: "🌐",
+    icon: mdiNetwork,
     title: "Network Infrastructure",
     desc: "Design, deploy, and maintain enterprise-grade network systems.",
-    color: "#0369a1",
+    color: "#00B4D8",
   },
   {
-    icon: "🛠️",
+    icon: mdiHeadCog,
     title: "IT Support & MSP",
     desc: "Reliable, responsive managed services keeping you always operational.",
     color: "#00B4D8",
   },
   {
-    icon: "🧭",
+    icon: mdiMonitorStar,
     title: "IT Consulting",
     desc: "Strategic technology planning and digital transformation roadmaps.",
-    color: "#0ea5e9",
+    color: "#00B4D8",
   },
   {
-    icon: "📣",
+    icon: mdiBullhorn,
     title: "Digital Marketing Tech",
     desc: "Build a powerful, measurable online presence and digital footprint.",
-    color: "#06b6d4",
+    color: "#00B4D8",
   },
 ];
 
@@ -76,15 +73,19 @@ const Card = ({ s, i, dark }) => {
         animationDelay: `${i * 0.08}s`,
       }}
     >
-      <div style={{ ...S.iconWrap, background: `${s.color}18` }}>
-        <span style={S.icon}>{s.icon}</span>
+      <div style={{ ...S.iconWrap, background: dark ? "rgba(255,255,255,0.05)" : "#e8f4fd" }}>
+        <Icon path={s.icon} size={1.2} color={dark ? "#94a3b8" : "#5c6b7e"} />
       </div>
       <h3 style={{ ...S.title, color: dark ? "#f1f5f9" : "#0A1F5C" }}>
         {s.title}
       </h3>
       <p style={{ ...S.desc, color: dark ? "#64748b" : "#5c6b7e" }}>{s.desc}</p>
       <div
-        style={{ ...S.line, background: s.color, width: hovered ? 64 : 32 }}
+        style={{ 
+          ...S.line, 
+          background: hovered ? s.color : (dark ? "rgba(255,255,255,0.2)" : "#ddeeff"), 
+          width: hovered ? 64 : 32 
+        }}
       />
     </div>
   );
@@ -106,12 +107,15 @@ const Services = ({ theme }) => {
           >
             What We Do
           </p>
-          <h2
+          <h1
             className="section-h2"
-            style={{ textAlign: "center", color: dark ? "#f1f5f9" : "#0A1F5C" }}
+            style={{
+              textAlign: "center", marginTop: 10,
+              marginBottom:15, color: dark ? "#f1f5f9" : "#0A1F5C"
+            }}
           >
             Our Services
-          </h2>
+          </h1>
           <p style={{ ...S.subtitle, color: dark ? "#64748b" : "#5c6b7e" }}>
             A full spectrum of ICT services designed to elevate your business.
           </p>
@@ -127,7 +131,13 @@ const Services = ({ theme }) => {
 };
 
 const S = {
-  section: { padding: "110px 40px", transition: "background 0.3s ease" },
+  section: { 
+    padding: "110px 40px", 
+    transition: "background 0.3s ease",
+    "@media (max-width: 768px)": {
+      padding: "60px 20px",
+    },
+  },
   inner: { maxWidth: 1100, margin: "0 auto" },
   header: { textAlign: "center", marginBottom: 64 },
   subtitle: {
@@ -136,44 +146,75 @@ const S = {
     maxWidth: 440,
     margin: "0 auto",
     transition: "color 0.3s ease",
+    "@media (max-width: 768px)": {
+      fontSize: 14,
+    },
   },
   grid: {
     display: "grid",
-    gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
-    gap: 20,
+    gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
+    gap: 24,
+    "@media (max-width: 768px)": {
+      gap: 16,
+    },
   },
   card: {
     border: "1px solid",
-    borderRadius: 16,
-    padding: "28px 24px",
+    borderRadius: 20,
+    padding: "32px 28px",
     transition: "all 0.3s ease",
     cursor: "default",
+    "@media (max-width: 768px)": {
+      padding: "24px 20px",
+      textAlign: "center",
+    },
   },
   iconWrap: {
-    width: 52,
-    height: 52,
-    borderRadius: 14,
+    width: 64,
+    height: 64,
+    borderRadius: 16,
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    marginBottom: 18,
+    marginBottom: 20,
+    transition: "all 0.3s ease",
+    "@media (max-width: 768px)": {
+      marginLeft: "auto",
+      marginRight: "auto",
+      width: 60,
+      height: 60,
+    },
   },
-  icon: { fontSize: 24 },
   title: {
     fontFamily: "'Syne',sans-serif",
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: 700,
-    marginBottom: 10,
+    marginBottom: 12,
     transition: "color 0.3s ease",
+    "@media (max-width: 768px)": {
+      fontSize: 17,
+    },
   },
   desc: {
     fontFamily: "'Space Grotesk',sans-serif",
-    fontSize: 13,
-    lineHeight: 1.75,
+    fontSize: 14,
+    lineHeight: 1.7,
     marginBottom: 20,
     transition: "color 0.3s ease",
+    "@media (max-width: 768px)": {
+      fontSize: 13,
+      textAlign: "center",
+    },
   },
-  line: { height: 3, borderRadius: 2, transition: "width 0.3s ease" },
+  line: { 
+    height: 3, 
+    borderRadius: 2, 
+    transition: "width 0.3s ease, background 0.3s ease",
+    "@media (max-width: 768px)": {
+      marginLeft: "auto",
+      marginRight: "auto",
+    },
+  },
 };
 
 export default Services;
