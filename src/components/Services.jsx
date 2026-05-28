@@ -7,18 +7,18 @@ const services = [
     desc: "Custom web and mobile applications built precisely for your workflows and goals.",
     color: "#00B4D8",
   },
-  {
-    icon: "☁️",
-    title: "Cloud Solutions",
-    desc: "Scalable cloud migration, hosting, and infrastructure management.",
-    color: "#0ea5e9",
-  },
-  {
-    icon: "🔒",
-    title: "Cybersecurity",
-    desc: "Robust security frameworks, audits, and 24/7 threat monitoring.",
-    color: "#06b6d4",
-  },
+  // {
+  //   icon: "☁️",
+  //   title: "Cloud Solutions",
+  //   desc: "Scalable cloud migration, hosting, and infrastructure management.",
+  //   color: "#0ea5e9",
+  // },
+  // {
+  //   icon: "🔒",
+  //   title: "Cybersecurity",
+  //   desc: "Robust security frameworks, audits, and 24/7 threat monitoring.",
+  //   color: "#06b6d4",
+  // },
   {
     icon: "📊",
     title: "Data Analytics",
