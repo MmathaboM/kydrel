@@ -63,9 +63,9 @@ const Footer = ({ theme }) => {
             Services
           </p>
           {[
-            "Software Dev",
-            "Cloud Solutions",
-            "Cybersecurity",
+            "Software Development",
+            "Digital Markerting",
+            "Technology Consulting",
             "Data Analytics",
           ].map((l) => (
             <span

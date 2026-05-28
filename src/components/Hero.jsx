@@ -179,7 +179,7 @@ const Hero = ({ onNav, theme }) => {
           {[
             ["100%", "Client Focused"],
             ["24/7", "Support"],
-            ["8+", "ICT Services"],
+            ["5+", "ICT Services"],
             ["SA", "Based & Proud"],
           ].map(([v, l]) => (
             <div key={l} style={S.stat}>

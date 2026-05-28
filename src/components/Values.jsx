@@ -1,38 +1,47 @@
 import { useState } from "react";
+import Icon from "@mdi/react";
+import {
+  mdiLightbulbOn,
+  mdiHandshake,
+  mdiStar,
+  mdiTarget,
+  mdiAccountGroup,
+  mdiLightningBolt,
+} from "@mdi/js";
 
 const values = [
   {
-    icon: "💡",
+    icon: mdiLightbulbOn,
     title: "Innovation",
     desc: "We embrace new ideas and continuously seek better solutions.",
     num: "01",
   },
   {
-    icon: "🤝",
+    icon: mdiHandshake,
     title: "Integrity",
     desc: "Honesty, transparency, and the highest ethical standards — always.",
     num: "02",
   },
   {
-    icon: "⭐",
+    icon: mdiStar,
     title: "Excellence",
     desc: "Committed to quality, precision, and exceeding expectations.",
     num: "03",
   },
   {
-    icon: "🎯",
+    icon: mdiTarget,
     title: "Client Focus",
     desc: "Our clients are at the centre of every decision we make.",
     num: "04",
   },
   {
-    icon: "🔗",
+    icon: mdiAccountGroup,
     title: "Collaboration",
     desc: "Strong partnerships that achieve shared, lasting success.",
     num: "05",
   },
   {
-    icon: "⚡",
+    icon: mdiLightningBolt,
     title: "Agility",
     desc: "We adapt quickly to change in a fast-moving digital landscape.",
     num: "06",
@@ -109,7 +118,9 @@ const Values = ({ theme }) => {
               >
                 {v.num}
               </span>
-              <span style={S.icon}>{v.icon}</span>
+              <div style={S.iconWrapper}>
+                <Icon path={v.icon} size={1.4} color="#00B4D8" />
+              </div>
               <h3 style={{ ...S.title, color: dark ? "#f1f5f9" : "#0A1F5C" }}>
                 {v.title}
               </h3>
@@ -175,19 +186,26 @@ const S = {
     letterSpacing: 1,
     transition: "color 0.3s ease",
   },
-  icon: { fontSize: 30, display: "block", marginBottom: 16 },
+  iconWrapper: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: 16,
+  },
   title: {
     fontFamily: "'Syne',sans-serif",
     fontSize: 17,
     fontWeight: 700,
     marginBottom: 10,
     transition: "color 0.3s ease",
+    textAlign: "center",
   },
   desc: {
     fontFamily: "'Space Grotesk',sans-serif",
     fontSize: 14,
     lineHeight: 1.75,
     transition: "color 0.3s ease",
+    textAlign: "center",
   },
 };
 

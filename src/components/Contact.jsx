@@ -174,7 +174,7 @@ const Contact = ({ theme }) => {
             />
             <div style={S.ctaStats}>
               {[
-                ["8+", "Services"],
+                ["5+", "Services"],
                 ["SA", "Based"],
                 ["24/7", "Support"],
               ].map(([v, l]) => (

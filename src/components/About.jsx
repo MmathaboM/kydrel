@@ -1,3 +1,6 @@
+import Icon from "@mdi/react";
+import { mdiEarth, mdiRocketLaunch } from "@mdi/js";
+
 const About = ({ theme }) => {
   const dark = theme === "dark";
 
@@ -85,7 +88,9 @@ const About = ({ theme }) => {
                       : "rgba(10,31,92,0.1)",
                   }}
                 >
-                  <div style={S.vmIcon}>🌍</div>
+                  <div style={S.vmIcon}>
+                    <Icon path={mdiEarth} size={1.2} />
+                  </div>
                   <h3
                     style={{
                       ...S.vmTitle,
@@ -113,7 +118,9 @@ const About = ({ theme }) => {
                       : "rgba(0,180,216,0.03)",
                   }}
                 >
-                  <div style={S.vmIcon}>🚀</div>
+                  <div style={S.vmIcon}>
+                    <Icon path={mdiRocketLaunch} size={1.2} />
+                  </div>
                   <h3 style={{ ...S.vmTitle, color: "#00B4D8" }}>
                     Our Mission
                   </h3>
@@ -127,11 +134,11 @@ const About = ({ theme }) => {
                 </div>
               </div>
 
-              {/* Fixed Tech Stack - Clean 6 items */}
+              {/* Simple Tech Stack - like it was originally */}
               <div style={S.techStack}>
                 {[
-                  "Software Development",
                   "E-commerce Solutions",
+                  "Software Development",
                   "CRM Solutions",
                   "Data Analytics",
                   "Technology Consulting",
@@ -163,13 +170,7 @@ const About = ({ theme }) => {
 };
 
 const S = {
-  section: {
-    padding: "110px 40px",
-    transition: "background 0.3s ease",
-    "@media (max-width: 768px)": {
-      padding: "60px 20px",
-    },
-  },
+  section: { padding: "110px 40px", transition: "background 0.3s ease" },
   inner: {
     maxWidth: 1100,
     margin: "0 auto",
@@ -177,36 +178,16 @@ const S = {
     gridTemplateColumns: "1fr 1fr",
     gap: 70,
     alignItems: "center",
-    "@media (max-width: 768px)": {
-      gridTemplateColumns: "1fr",
-      gap: 40,
-    },
   },
-  left: {
-    "@media (max-width: 768px)": {
-      textAlign: "center",
-    },
-  },
+  left: {},
   body: {
     fontFamily: "'Space Grotesk',sans-serif",
     fontSize: 15,
     lineHeight: 1.9,
     marginBottom: 18,
     transition: "color 0.3s ease",
-    "@media (max-width: 768px)": {
-      fontSize: 14,
-      textAlign: "center",
-    },
   },
-  pills: {
-    display: "flex",
-    flexWrap: "wrap",
-    gap: 10,
-    marginTop: 28,
-    "@media (max-width: 768px)": {
-      justifyContent: "center",
-    },
-  },
+  pills: { display: "flex", flexWrap: "wrap", gap: 10, marginTop: 28 },
   pill: {
     fontFamily: "'Space Grotesk',sans-serif",
     fontSize: 12,
@@ -235,37 +216,24 @@ const S = {
       "radial-gradient(circle, rgba(0,180,216,0.12) 0%, transparent 70%)",
     pointerEvents: "none",
   },
-  cardInner: {
-    padding: 32,
-    "@media (max-width: 768px)": {
-      padding: 24,
-    },
-  },
+  cardInner: { padding: 32 },
   vmGrid: {
     display: "grid",
     gridTemplateColumns: "1fr 1fr",
     gap: 16,
     marginBottom: 24,
-    "@media (max-width: 768px)": {
-      gridTemplateColumns: "1fr",
-      gap: 12,
-    },
   },
   vmCard: {
     border: "1px solid",
     borderRadius: 12,
     padding: "22px 18px",
     transition: "all 0.3s ease",
-    "@media (max-width: 768px)": {
-      padding: "18px 16px",
-    },
   },
   vmIcon: {
     fontSize: 26,
     marginBottom: 12,
-    "@media (max-width: 768px)": {
-      fontSize: 24,
-    },
+    display: "flex",
+    alignItems: "center",
   },
   vmTitle: {
     fontFamily: "'Syne',sans-serif",
@@ -279,19 +247,12 @@ const S = {
     fontSize: 13,
     lineHeight: 1.7,
     transition: "color 0.3s ease",
-    "@media (max-width: 768px)": {
-      fontSize: 12,
-    },
   },
   techStack: {
     display: "flex",
     flexWrap: "wrap",
     gap: 8,
     marginTop: 8,
-    "@media (max-width: 768px)": {
-      justifyContent: "center",
-      gap: 6,
-    },
   },
   tag: {
     border: "1px solid",
@@ -302,10 +263,6 @@ const S = {
     padding: "4px 12px",
     letterSpacing: 0.5,
     transition: "all 0.3s ease",
-    "@media (max-width: 768px)": {
-      fontSize: 10,
-      padding: "3px 10px",
-    },
   },
 };
 
