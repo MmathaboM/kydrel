@@ -87,14 +87,13 @@ const Navbar = ({ activeSection, onNav, theme, toggleTheme }) => {
           />
         </button>
 
-        {/* Navigation */}
+        {/* Navigation - Desktop always visible, Mobile shows based on menuOpen */}
         <ul
           style={{
             ...styles.list,
-            display:
-              window.innerWidth < 768 ? (menuOpen ? "flex" : "none") : "flex",
+            display: window.innerWidth < 768 ? "none" : "flex",
           }}
-          className="nav-links"
+          className="desktop-nav-links"
         >
           {links.map((l) => (
             <li key={l}>
@@ -115,7 +114,6 @@ const Navbar = ({ activeSection, onNav, theme, toggleTheme }) => {
                 }}
                 onClick={() => {
                   onNav(l.toLowerCase());
-                  setMenuOpen(false);
                 }}
               >
                 {l}
@@ -123,7 +121,7 @@ const Navbar = ({ activeSection, onNav, theme, toggleTheme }) => {
             </li>
           ))}
 
-          {/* Theme Toggle */}
+          {/* Theme Toggle - Icon only for desktop */}
           <li>
             <button
               onClick={toggleTheme}
@@ -145,7 +143,6 @@ const Navbar = ({ activeSection, onNav, theme, toggleTheme }) => {
               className="cta-btn"
               onClick={() => {
                 onNav("contact");
-                setMenuOpen(false);
               }}
             >
               Get In Touch
@@ -153,6 +150,98 @@ const Navbar = ({ activeSection, onNav, theme, toggleTheme }) => {
           </li>
         </ul>
       </nav>
+
+      {/* Mobile Menu - Slides from RIGHT side */}
+      <div
+        className="mobile-menu"
+        style={{
+          ...styles.mobileMenu,
+          transform: menuOpen ? "translateX(0)" : "translateX(100%)",
+          backgroundColor: dark
+            ? "rgba(2, 11, 26, 0.98)"
+            : "rgba(255, 255, 255, 0.98)",
+          backdropFilter: "blur(20px)",
+        }}
+      >
+        {/* Close button */}
+        <button
+          onClick={() => setMenuOpen(false)}
+          style={styles.closeBtn}
+          className="close-btn"
+        >
+          <span
+            style={{
+              ...styles.closeBar,
+              background: dark ? "#fff" : "#0A1F5C",
+              transform: "rotate(45deg)",
+            }}
+          />
+          <span
+            style={{
+              ...styles.closeBar,
+              background: dark ? "#fff" : "#0A1F5C",
+              transform: "rotate(-45deg)",
+              position: "absolute",
+            }}
+          />
+        </button>
+
+        <ul style={styles.mobileList}>
+          {links.map((l) => (
+            <li key={l}>
+              <button
+                style={{
+                  ...styles.mobileLink,
+                  color:
+                    activeSection === l.toLowerCase()
+                      ? "#00B4D8"
+                      : dark
+                        ? "#f0f0f0"
+                        : "#1a2a4f",
+                }}
+                onClick={() => {
+                  onNav(l.toLowerCase());
+                  setMenuOpen(false);
+                }}
+              >
+                {l}
+              </button>
+            </li>
+          ))}
+
+          {/* Theme Toggle in Mobile Menu */}
+          <li>
+            <button onClick={toggleTheme} style={styles.mobileThemeBtn}>
+              <Icon
+                path={dark ? mdiWeatherSunny : mdiWeatherNight}
+                size={1.2}
+                color={dark ? "#FFD700" : "#0A1F5C"}
+              />
+              <span style={{ marginLeft: 12 }}>
+                {dark ? "Light Mode" : "Dark Mode"}
+              </span>
+            </button>
+          </li>
+
+          {/* CTA in Mobile Menu */}
+          <li>
+            <button
+              style={styles.mobileCta}
+              onClick={() => {
+                onNav("contact");
+                setMenuOpen(false);
+              }}
+            >
+              Get In Touch
+            </button>
+          </li>
+        </ul>
+      </div>
+
+      {/* Backdrop overlay */}
+      {menuOpen && (
+        <div style={styles.backdrop} onClick={() => setMenuOpen(false)} />
+      )}
     </>
   );
 };
@@ -257,79 +346,122 @@ const styles = {
 
     transition: "all 0.2s ease",
   },
+
+  // Mobile menu styles
+  mobileMenu: {
+    position: "fixed",
+    top: 0,
+    right: 0,
+    bottom: 0,
+    width: "100%",
+    maxWidth: "320px",
+    zIndex: 1001,
+    transition: "transform 0.3s ease-in-out",
+    boxShadow: "-5px 0 25px rgba(0,0,0,0.15)",
+    overflowY: "auto",
+  },
+
+  closeBtn: {
+    position: "absolute",
+    top: 20,
+    right: 20,
+    width: 40,
+    height: 40,
+    background: "rgba(0,180,216,0.1)",
+    border: "none",
+    borderRadius: "50%",
+    cursor: "pointer",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    zIndex: 1002,
+  },
+
+  closeBar: {
+    width: 20,
+    height: 2,
+    transition: "all 0.3s ease",
+  },
+
+  mobileList: {
+    listStyle: "none",
+    margin: 0,
+    padding: "100px 24px 40px 24px",
+    display: "flex",
+    flexDirection: "column",
+    gap: 24,
+    height: "100%",
+  },
+
+  mobileLink: {
+    background: "none",
+    border: "none",
+    cursor: "pointer",
+    fontFamily: "'Space Grotesk', sans-serif",
+    fontSize: 22,
+    fontWeight: 500,
+    padding: "12px 0",
+    width: "100%",
+    textAlign: "left",
+    transition: "all 0.2s ease",
+    letterSpacing: "-0.02em",
+  },
+
+  mobileThemeBtn: {
+    background: "rgba(0,180,216,0.1)",
+    border: "none",
+    cursor: "pointer",
+    fontFamily: "'Space Grotesk', sans-serif",
+    fontSize: 18,
+    fontWeight: 500,
+    padding: "14px 20px",
+    width: "100%",
+    textAlign: "left",
+    borderRadius: 16,
+    display: "flex",
+    alignItems: "center",
+    transition: "all 0.2s ease",
+    marginTop: 10,
+  },
+
+  mobileCta: {
+    background: "linear-gradient(135deg,#00B4D8,#0090B0)",
+    color: "#fff",
+    border: "none",
+    cursor: "pointer",
+    fontFamily: "'Space Grotesk', sans-serif",
+    fontSize: 18,
+    fontWeight: 600,
+    padding: "16px 24px",
+    width: "100%",
+    borderRadius: 40,
+    marginTop: 20,
+    transition: "all 0.2s ease",
+    boxShadow: "0 4px 14px rgba(0,180,216,0.3)",
+  },
+
+  backdrop: {
+    position: "fixed",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    zIndex: 1000,
+  },
 };
 
 const responsiveStyles = `
   @media (max-width: 768px) {
-
     .menu-btn {
       display: flex !important;
-    }
-
-    .nav-links {
-      position: fixed !important;
-
-      top: 0 !important;
-      left: 0 !important;
-      left: auto !important;
-right: 0 !important;
-margin-left: auto !important;
-      bottom: 0 !important;
-
-      width: 100vw !important;
-      height: 100vh !important;
-
-      flex-direction: column !important;
-      align-items: center !important;
-      justify-content: center !important;
-
-      padding: 40px 24px !important;
-      gap: 18px !important;
-
-      background: rgba(68, 86, 118, 0.98) !important;
-      backdrop-filter: blur(20px) !important;
-
-      z-index: 999 !important;
-
-      border-radius: 0 !important;
-      border: none !important;
-
-      overflow: hidden !important;
-    }
-
-    .nav-links button {
-      width: 100% !important;
-      max-width: 320px !important;
-
-      text-align: center !important;
-
-      padding: 16px !important;
-
-      font-size: 18px !important;
-
-      border-radius: 14px !important;
-    }
-
-    .theme-btn {
-      justify-content: center !important;
-    }
-
-    .cta-btn {
-      width: 100% !important;
-
-      margin-left: 0 !important;
-      margin-top: 12px !important;
-
-      text-align: center !important;
     }
   }
 `;
 
 if (typeof document !== "undefined") {
   const style = document.createElement("style");
-
   style.innerHTML = responsiveStyles;
-
   document.head.appendChild(style);
 }
 
