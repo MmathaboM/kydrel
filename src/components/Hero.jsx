@@ -141,7 +141,7 @@ const Hero = ({ onNav, theme }) => {
             words={[
               "Digital Solutions",
               "Smart Software",
-              "Cloud Systems",
+              // "Cloud Systems",
               "Secure Networks",
               "Your Future",
             ]}
