@@ -30,8 +30,8 @@ const contacts = [
   {
     icon: mdiWeb,
     label: "Website",
-    value: "www.kydrel.co.za",
-    href: "https://www.kydrel.co.za",
+    value: "www.kydreltechnologies.co.za",
+    href: "https://www.kydreltechnologies.co.za",
   },
 ];
 
