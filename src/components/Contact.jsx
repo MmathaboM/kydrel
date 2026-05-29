@@ -1,31 +1,34 @@
+import Icon from "@mdi/react";
+import {
+  mdiEmailOutline,
+  mdiPhoneOutline,
+  mdiWhatsapp,
+  mdiWeb,
+  mdiArrowRight,
+} from "@mdi/js";
+
 const contacts = [
   {
-    icon: "✉️",
+    icon: mdiEmailOutline,
     label: "General Email",
     value: "info@kydreltechnologies.co.za",
     href: "mailto:info@kydreltechnologies.co.za",
   },
-  // {
-  //   icon: "👤",
-  //   label: "Direct Contact",
-  //   value: "mmathabo@kydrel.co.za",
-  //   href: "mailto:mmathabo@kydrel.co.za",
-  // },
   {
-    icon: "📱",
+    icon: mdiPhoneOutline,
     label: "Call Us",
     value: "076 325 3244",
     href: "tel:+27763253244",
   },
   {
-    icon: "💬",
+    icon: mdiWhatsapp,
     label: "WhatsApp Us",
     value: "076 325 3244",
-    href: "https://wa.me/27763253244", // WhatsApp direct link
+    href: "https://wa.me/27763253244",
     isWhatsApp: true,
   },
   {
-    icon: "🌐",
+    icon: mdiWeb,
     label: "Website",
     value: "www.kydrel.co.za",
     href: "https://www.kydrel.co.za",
@@ -66,7 +69,7 @@ const Contact = ({ theme }) => {
               <a
                 key={c.label}
                 href={c.href}
-                target={c.isWhatsApp ? "_blank" : "_blank"}
+                target="_blank"
                 rel="noreferrer"
                 style={{
                   ...S.card,
@@ -105,7 +108,14 @@ const Contact = ({ theme }) => {
                   }
                 }}
               >
-                <span style={S.cIcon}>{c.icon}</span>
+                <Icon
+                  path={c.icon}
+                  size={1.2}
+                  color={
+                    c.isWhatsApp ? "#25D366" : dark ? "#00B4D8" : "#0A1F5C"
+                  }
+                  style={S.cIcon}
+                />
                 <div>
                   <p
                     style={{
@@ -136,9 +146,13 @@ const Contact = ({ theme }) => {
                       fontSize: 12,
                       color: "#25D366",
                       fontFamily: "'Space Grotesk',sans-serif",
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 4,
                     }}
                   >
-                    Click to chat →
+                    Click to chat
+                    <Icon path={mdiArrowRight} size={0.7} color="#25D366" />
                   </span>
                 )}
               </a>
@@ -193,7 +207,13 @@ const Contact = ({ theme }) => {
             </div>
             <div style={S.ctaButtons}>
               <a href="mailto:info@kydrel.co.za" style={S.ctaBtn}>
-                Send Us An Email →
+                Send Us An Email
+                <Icon
+                  path={mdiArrowRight}
+                  size={0.8}
+                  color="#fff"
+                  style={{ marginLeft: 8, verticalAlign: "middle" }}
+                />
               </a>
               <a
                 href="https://wa.me/27763253244"
@@ -203,9 +223,14 @@ const Contact = ({ theme }) => {
                   ...S.ctaBtn,
                   background: "linear-gradient(135deg, #25D366, #128C7E)",
                   marginLeft: 12,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: 8,
                 }}
               >
-                Chat on WhatsApp 💬
+                Chat on WhatsApp
+                <Icon path={mdiWhatsapp} size={0.9} color="#fff" />
               </a>
             </div>
           </div>
@@ -262,7 +287,12 @@ const S = {
     textDecoration: "none",
     transition: "all 0.3s ease",
   },
-  cIcon: { fontSize: 24 },
+  cIcon: {
+    minWidth: 24,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  },
   cLabel: {
     fontFamily: "'Space Grotesk',sans-serif",
     fontSize: 11,
@@ -349,7 +379,8 @@ const S = {
     gap: 12,
   },
   ctaBtn: {
-    display: "inline-block",
+    display: "inline-flex",
+    alignItems: "center",
     background: "linear-gradient(135deg, #00B4D8, #0090B0)",
     color: "#fff",
     textDecoration: "none",
